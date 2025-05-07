@@ -1,15 +1,14 @@
 ﻿using System;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Chrome;
+using OpenQA.Selenium.DevTools;
 using OpenQA.Selenium.Support.UI;
 
 
-
-
-IWebDriver driver = new ChromeDriver();
+WebDriver driver = new ChromeDriver();
 
 // Ustawienie opóźnienia
-driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(1);
+driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(2);
 
 //Dane
 driver.Navigate().GoToUrl("https://demo.guru99.com/payment-gateway/cardnumber.php");
@@ -72,13 +71,14 @@ input.Click();
 
 
 
-Console.WriteLine("Na kącie znajduje się: " + driver.FindElement(By.XPath("//*[@id=\"three\"]/div/div/h4/span")).Text + "$");
+Console.WriteLine("Na koncie znajduje się: " + driver.FindElement(By.XPath("//*[@id=\"three\"]/div/div/h4/span")).Text + "$");
 
 
 
 //Zamówienie 2
 
 driver.Navigate().GoToUrl("https://demo.guru99.com/payment-gateway/purchasetoy.php");
+
 //Thread.Sleep(1000);
 input = driver.FindElement(By.XPath("//*[@id=\"three\"]/div/form/div/div[4]/select"));
 
@@ -114,6 +114,7 @@ input = driver.FindElement(By.XPath("//*[@id=\"three\"]/div/form/div[2]/div/ul/l
 input.Click();
 
 //Odczyt 2
+
 driver.Navigate().GoToUrl("https://demo.guru99.com/payment-gateway/check_credit_balance.php");
 //Thread.Sleep(1000);
 input = driver.FindElement(By.XPath("//*[@id=\"card_nmuber\"]"));
@@ -123,15 +124,15 @@ input.SendKeys(number);
 input = driver.FindElement(By.XPath("//*[@id=\"three\"]/div/form/div/div[6]/input"));
 input.Click();
 
+string balance = driver.FindElement(By.XPath("//*[@id=\"three\"]/div/div/h4/span")).Text;
+
+Console.WriteLine("Na koncie znajduje się: " + balance + "$");
 
 
-Console.WriteLine("Na koncie znajduje się: " + driver.FindElement(By.XPath("//*[@id=\"three\"]/div/div/h4/span")).Text + "$");
+PrintOptions printOptions = new PrintOptions();
+printOptions.AddPageRangeToPrint("1");
+PrintDocument printedPage = driver.Print(printOptions);
+printedPage.SaveAsFile("balance.pdf");
 
-
-
-
-Console.ReadLine();
-
-
-
+// Save the document
 driver.Quit();
