@@ -1,7 +1,5 @@
-﻿using System;
-using OpenQA.Selenium;
+﻿using OpenQA.Selenium;
 using OpenQA.Selenium.Chrome;
-using OpenQA.Selenium.DevTools;
 using OpenQA.Selenium.Support.UI;
 
 
@@ -114,10 +112,20 @@ input = driver.FindElement(By.XPath("//*[@id=\"three\"]/div/form/div[2]/div/ul/l
 input.Click();
 
 //Odczyt 2
-
-driver.Navigate().GoToUrl("https://demo.guru99.com/payment-gateway/check_credit_balance.php");
+bool loaded = false;
+while (!loaded){
+    try
+    {
+    driver.Navigate().GoToUrl("https://demo.guru99.com/payment-gateway/check_credit_balance.php");
+    input = driver.FindElement(By.XPath("//*[@id=\"card_nmuber\"]"));
+    }
+    catch
+    {
+        continue;
+    }
+    loaded = true;
+}
 //Thread.Sleep(1000);
-input = driver.FindElement(By.XPath("//*[@id=\"card_nmuber\"]"));
 input.Clear();
 input.SendKeys(number);
 
