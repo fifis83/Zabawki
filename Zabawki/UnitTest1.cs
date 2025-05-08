@@ -35,7 +35,7 @@ input = driver.FindElement(By.XPath("//*[@id=\"three\"]/div/form/div/div[8]/ul/l
 input.Click();
 
 //Podanie danych do zamówienia
-
+/// tetstststats
 //Thread.Sleep(1000);
 input = driver.FindElement(By.XPath("//*[@id=\"card_nmuber\"]"));
 input.Clear();
